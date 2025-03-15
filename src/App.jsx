@@ -1,5 +1,5 @@
 import {   BrowserRouter, Route, Routes } from "react-router-dom";
-import Movies from "./Component/Products/Movies";
+import Movies from "./Component/Movies/Movies";
 import Header from "./Component/Header/Header";
 import Home from "./Pages/Home/Home";
 import Details from "./Component/Details/Details";
