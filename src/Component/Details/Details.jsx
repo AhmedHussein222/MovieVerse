@@ -36,7 +36,16 @@ function Details() {
           <Card.Body className='d-flex flex-column gap-5'>
             <Card.Title>{movie.original_title}</Card.Title>
             <Card.Text>
+              <p>
               {movie.overview}
+              </p>
+                <p className="card-text">
+                      ⭐ {movie.vote_average} ( {movie.vote_count} ) 
+                </p> 
+                      
+                <p>
+                       📅 {movie.release_date}
+                </p>
             </Card.Text>
           </Card.Body>
         </div>

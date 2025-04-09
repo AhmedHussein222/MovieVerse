@@ -1,5 +1,9 @@
 import { useForm } from "react-hook-form"
-
+import { login } from "../../Services/Auth";
+import { useContext } from "react";
+import { authContext } from "../../Context/IsAuth";
+import { toast } from 'react-hot-toast';
+import { Navigate, useNavigate } from "react-router-dom";
 function Login  ()  {
        
 
@@ -10,9 +14,26 @@ function Login  ()  {
     formState: { errors },
   } = useForm()
 
-  let submit=(data)=>{
+  const {setIsAuth} = useContext(authContext)
+  let nav = useNavigate()
+
+  let submit=async(data)=>{
     console.log(data);
-    
+    try {
+        let res = await login(data.email,data.password)
+        let expires = new Date()
+        expires.setDate(expires.getDate()+2)
+        expires.toUTCString()
+        // document.cookie = `Token=${res.user.accessToken}; expires=${expires}; path=/`;
+        document.cookie = `Token=${res.user.accessToken}; expires=${expires}; path=/`;
+        setIsAuth(true)
+        toast.success('Login Successfully !');
+        nav('/')
+
+    } catch (error) {
+        console.error(error.message);
+        
+    }    
   }
  
   
@@ -22,7 +43,7 @@ function Login  ()  {
     return ( 
     
         <>
-        <div className="mb-3 col-12 m-auto  p-5 bg-secondary">
+        <div className="m-5 col-6 m-auto  p-5 bg-secondary">
             <form action=""  onSubmit={handleSubmit(submit)} >
 
                 <label htmlFor="" className="form-label">Email</label>
@@ -39,7 +60,7 @@ function Login  ()  {
                 
             <label htmlFor="" className="form-label">Password</label>
             <input
-                type="text"
+                type="password"
                 className="form-control"
                 name="password"
                 id="password"
