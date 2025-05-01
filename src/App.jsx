@@ -1,23 +1,23 @@
+import { useState } from "react";
+import { Toaster } from "react-hot-toast";
+import { Provider } from "react-redux";
 import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import Movies from "./Component/Movies/Movies";
-import Home from "./Pages/Home/Home";
 import Details from "./Component/Details/Details";
 import Favorite from "./Component/Favorite/Favorite";
-import Main from "./Component/Main/Main";
-import NotFound from "./Pages/Not Found/NotFound";
-import store from "./Store/Store";
-import { Provider } from "react-redux";
 import Login from "./Component/Login/Login";
+import Main from "./Component/Main/Main";
+import Movies from "./Component/Movies/Movies";
 import SignUp from "./Component/SignUp/SignUp";
 import Authenticate from "./Component/Singn&Login/Authenticate";
-import AuthGuard from "./Pages/AuthGuard/AuthGuard";
 import { AuthProvider } from "./Context/IsAuth";
-import { useState } from "react";
-import { Toaster } from "react-hot-toast";
+import AuthGuard from "./Pages/AuthGuard/AuthGuard";
+import Home from "./Pages/Home/Home";
+import NotFound from "./Pages/Not Found/NotFound";
+import store from "./Store/Store";
 
 const router = createBrowserRouter([
   {
@@ -80,7 +80,6 @@ function App() {
     }
     return false;
   }
-
 
   const [isAuth, setIsAuth] = useState(getCookie("Token"));
   return (

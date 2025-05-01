@@ -1,85 +1,100 @@
-import { useForm } from "react-hook-form"
-import { login } from "../../Services/Auth";
 import { useContext } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { authContext } from "../../Context/IsAuth";
-import { toast } from 'react-hot-toast';
-import { Navigate, useNavigate } from "react-router-dom";
-function Login  ()  {
-       
-
+import { login } from "../../Services/Auth";
+function Login() {
   const {
     register,
     handleSubmit,
-   
+
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
-  const {setIsAuth} = useContext(authContext)
-  let nav = useNavigate()
+  const { setIsAuth } = useContext(authContext);
+  let nav = useNavigate();
 
-  let submit=async(data)=>{
+  let submit = async (data) => {
     console.log(data);
     try {
-        let res = await login(data.email,data.password)
-        let expires = new Date()
-        expires.setDate(expires.getDate()+2)
-        expires.toUTCString()
-        // document.cookie = `Token=${res.user.accessToken}; expires=${expires}; path=/`;
-        document.cookie = `Token=${res.user.accessToken}; expires=${expires}; path=/`;
-        setIsAuth(true)
-        toast.success('Login Successfully !');
-        nav('/')
-
+      let res = await login(data.email, data.password);
+      let expires = new Date();
+      expires.setDate(expires.getDate() + 2);
+      expires.toUTCString();
+      document.cookie = `Token=${res.user.accessToken}; expires=${expires}; path=/`;
+      setIsAuth(true);
+      toast.success("Login Successfully !");
+      nav("/");
     } catch (error) {
-        console.error(error.message);
-        
-    }    
-  }
- 
-  
+      console.error(error.message);
+    }
+  };
 
+  return (
+    <>
+      <div className="col-md-10 m-auto col-lg-6 col-xl-5 order-2 order-lg-1">
+        <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Login</p>
 
-
-    return ( 
-    
-        <>
-        <div className="m-5 col-6 m-auto  p-5 bg-secondary">
-            <form action=""  onSubmit={handleSubmit(submit)} >
-
-                <label htmlFor="" className="form-label">Email</label>
-            <input
-                type="text"
-                className="form-control"
+        <form className="mx-1 mx-md-4" onSubmit={handleSubmit(submit)}>
+          <div className="d-flex flex-row align-items-center mb-4">
+            <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
+            <div className="form-outline flex-fill mb-0">
+              <label className="form-label" htmlFor="form3Example3c">
+                Your Email
+              </label>
+              <input
                 name="email"
-                {...register("email",{required:"Email is required"})}
-                aria-describedby="emailHelpId"
-                placeholder="abc@mail.com"
-            />
-                {errors.email && <p className="text-danger">{errors.email.message}</p>}
-
-                
-            <label htmlFor="" className="form-label">Password</label>
-            <input
-                type="password"
+                type="email"
+                {...register("email", { required: "Email is required" })}
+                id="form3Example3c"
                 className="form-control"
+                placeholder="abc@mail.com"
+              />
+              {errors.email && (
+                <p className="text-danger">{errors.email.message}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="d-flex flex-row align-items-center mb-4">
+            <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
+            <div className="form-outline flex-fill mb-0">
+              <label className="form-label" htmlFor="form3Example4c">
+                Password
+              </label>
+              <input
                 name="password"
-                id="password"
-                {...register("password",{required:"password is required"})}
-                aria-describedby="emailHelpId"
+                type="password"
+                {...register("password", { required: "Password is required" })}
+                id="form3Example4c"
+                className="form-control"
                 placeholder="Password"
+              />
+              {errors.password && (
+                <p className="text-danger">{errors.password.message}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="form-check d-flex justify-content-center mb-5">
+            <input
+              className="form-check-input me-2"
+              type="checkbox"
+              id="form2Example3c"
             />
-             {errors.password && <p className="text-danger">{errors.password.message}</p>}
+            <label className="form-check-label" htmlFor="form2Example3c">
+              Remember me
+            </label>
+          </div>
 
-
-            <button className="btn btn-info col-4 my-5 text-center mx-auto">Login</button>
-            </form>
-            
-            
-        </div>
-        
-        </> 
-    
-    );
+          <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+            <button className="btn btn-primary btn-lg">Login</button>
+          </div>
+        </form>
+      </div>
+    </>
+  );
 }
 
 export default Login;
